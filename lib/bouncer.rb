@@ -1,5 +1,5 @@
 require 'bouncer/version'
-require 'bouncer/listener'
+require 'bouncer/store'
 
 module Bouncer
   class << self

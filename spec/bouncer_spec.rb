@@ -10,10 +10,23 @@ describe Bouncer do
     expect(subject).to be_a(Class)
   end
 
+  context 'main interface' do
+    describe '.subscribe' do
+      it 'sends the object to the store' do
+        object = Object.new
+
+        expect(Bouncer::Store).to receive(:register).with(object)
+
+        Bouncer.subscribe(object)
+      end
+    end
+  end
+
   context 'Bouncer::Store' do
+    subject { Bouncer::Store }
 
     it 'is a singleton class' do
-      expect { Bouncer::Store.new }.to raise_error NoMethodError
+      expect { subject.new }.to raise_error NoMethodError
     end
 
     it 'registers an object in the store' do
@@ -22,9 +35,9 @@ describe Bouncer do
 
     it 'returns the current store objects' do
       object = Object.new
-      Bouncer::Store.register(object)
+      subject.register(object)
 
-      expect(Bouncer::Store.objects).to eq([object])
+      expect(subject.objects).to eq([object])
     end
   end
 end

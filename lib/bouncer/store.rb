@@ -11,6 +11,10 @@ module Bouncer
         @@objects << object
       end
 
+      def notify(event)
+        # notify all listeners
+      end
+
       def objects
         @@objects
       end

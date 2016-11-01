@@ -3,8 +3,8 @@ require 'bouncer/store'
 
 module Bouncer
   class << self
-    def subscribe(*args, &block)
-
+    def subscribe(object, *args, &block)
+      Bouncer::Store.register(object)
     end
 
     def publish(*args, &block)

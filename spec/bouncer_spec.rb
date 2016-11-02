@@ -7,6 +7,18 @@ describe Bouncer do
     end
   end
 
+  let(:listener) do
+    Class.new do
+      def on_change
+        'on_change'
+      end
+
+      def with_args(arg1, arg2)
+        "with args #{arg1} #{arg2}"
+      end
+    end.new
+  end
+
   it 'has a version number' do
     expect(Bouncer::VERSION).not_to be nil
   end
@@ -27,8 +39,20 @@ describe Bouncer do
       end
     end
 
-    describe '.on' do
-      pending
+    describe '.publish' do
+      it 'publishes an event to all listeners without arguments' do
+        subject.subscribe(listener)
+        expect(listener).to receive(:on_change)
+
+        subject.publish(:on_change)
+      end
+
+      it 'publishes an event to all listeners with arguments' do
+        subject.subscribe(listener)
+        expect(listener).to receive(:with_args).with('first', 'second')
+
+        subject.publish(:with_args, 'first', 'second')
+      end
     end
   end
 

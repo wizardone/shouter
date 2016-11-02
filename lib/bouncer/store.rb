@@ -16,11 +16,11 @@ module Bouncer
         @@listeners = []
       end
 
-      def notify(event)
-        # notify all listeners
+      def notify(event, args)
         return if listeners.empty?
+
         listeners.each do |listener|
-          listener.public_send(event)
+          listener.object.public_send(event, *args)
         end
       end
 

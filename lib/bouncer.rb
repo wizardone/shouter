@@ -1,18 +1,17 @@
 require 'bouncer/version'
+require 'bouncer/listener'
 require 'bouncer/store'
-
+require 'byebug'
 module Bouncer
-  class << self
-    def subscribe(object, *args, &block)
-      Bouncer::Store.register(object)
-    end
+  def subscribe(object, opts = {})
+    Bouncer::Store.register(object, opts)
+  end
 
-    def publish(*args, &block)
+  def publish(*args, &block)
 
-    end
+  end
 
-    def on(event, &block)
-
-    end
+  def on(event)
+    Bouncer::Store.notify(event)
   end
 end

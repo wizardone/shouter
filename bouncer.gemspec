@@ -9,9 +9,9 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Stefan Slaveykov"]
   spec.email         = ["wizard.oneandonly@gmail.com"]
 
-  spec.summary       = %q{TODO: Write a short summary, because Rubygems requires one.}
-  spec.description   = %q{TODO: Write a longer description or delete this line.}
-  spec.homepage      = "TODO: Put your gem's website or public repo URL here."
+  spec.summary       = %q{Small subscription based system in Ruby}
+  spec.description   = %q{wanna know more?}
+  spec.homepage      = "https://github.com/wizardone/bouncer"
   spec.license       = "MIT"
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'

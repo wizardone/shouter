@@ -4,8 +4,8 @@ require 'bouncer/store'
 require 'byebug'
 
 module Bouncer
-  def subscribe(object, opts = {})
-    Bouncer::Store.register(object, opts)
+  def subscribe(object, **options)
+    Bouncer::Store.register(object, options)
   end
 
   def publish(event, *args)

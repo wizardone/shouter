@@ -6,5 +6,9 @@ module Bouncer
       @object = object
       @options = options
     end
+
+    def for?(event)
+      options[:scope] == event
+    end
   end
 end

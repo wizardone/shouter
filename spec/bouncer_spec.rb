@@ -19,6 +19,8 @@ describe Bouncer do
     end.new
   end
 
+  before { Bouncer::Store.clear }
+
   it 'has a version number' do
     expect(Bouncer::VERSION).not_to be nil
   end
@@ -31,17 +33,27 @@ describe Bouncer do
     describe '.subscribe' do
       it 'sends the object to the store' do
         object = Object.new
-        options = { scope: 'scope', default: true }
+        options = { scope: 'scope' }
 
         expect(Bouncer::Store).to receive(:register).with(object, options)
 
         subject.subscribe(object, options)
+      end
+
+      it 'sends the options to the listener' do
+        object = Object.new
+        options = { scope: 'updates' }
+
+        subject.subscribe(object, options)
+
+        expect(Bouncer::Store.listeners).not_to be_empty
       end
     end
 
     describe '.publish' do
       it 'publishes an event to all listeners without arguments' do
         subject.subscribe(listener)
+
         expect(listener).to receive(:on_change)
 
         subject.publish(:on_change)
@@ -49,6 +61,7 @@ describe Bouncer do
 
       it 'publishes an event to all listeners with arguments' do
         subject.subscribe(listener)
+
         expect(listener).to receive(:with_args).with('first', 'second')
 
         subject.publish(:with_args, 'first', 'second')
@@ -58,7 +71,6 @@ describe Bouncer do
 
   context 'Bouncer::Store' do
     subject { Bouncer::Store }
-    before { Bouncer::Store.clear }
 
     it 'is a singleton class' do
       expect { subject.new }.to raise_error NoMethodError

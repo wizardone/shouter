@@ -52,7 +52,7 @@ describe Bouncer do
 
     describe '.publish' do
       it 'publishes an event to all listeners without arguments' do
-        subject.subscribe(listener)
+        subject.subscribe(listener, scope: :on_change)
 
         expect(listener).to receive(:on_change)
 
@@ -60,7 +60,7 @@ describe Bouncer do
       end
 
       it 'publishes an event to all listeners with arguments' do
-        subject.subscribe(listener)
+        subject.subscribe(listener, scope: :with_args)
 
         expect(listener).to receive(:with_args).with('first', 'second')
 

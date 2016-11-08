@@ -21,7 +21,7 @@ module Bouncer
         return if listeners.empty?
 
         listeners.each do |listener|
-          listener.object.public_send(event, *args)# if listener.for?(event)
+          listener.object.public_send(event, *args) if listener.for?(event)
         end
       end
 

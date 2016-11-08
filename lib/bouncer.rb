@@ -8,7 +8,7 @@ module Bouncer
     Bouncer::Store.register(object, options)
   end
 
-  def publish(event, *args)
-    Bouncer::Store.notify(event, args)
+  def publish(scope, event, *args)
+    Bouncer::Store.notify(scope, event, args)
   end
 end

@@ -16,12 +16,13 @@ module Bouncer
         @@listeners = []
       end
 
-      def notify(event, args)
+      def notify(scope, event, args)
         # Use some scope
         return if listeners.empty?
 
-        listeners.each do |listener|
-          listener.object.public_send(event, *args) if listener.for?(event)
+        listeners.select { |listener| listener.for?(scope) }.each do |listener|
+          klass = listener.object
+          klass.public_send(event, *args) if klass.respond_to?(event)
         end
       end
 

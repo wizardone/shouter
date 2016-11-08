@@ -13,7 +13,7 @@ describe Bouncer do
         'on_change'
       end
 
-      def with_args(arg1, arg2)
+      def on_change_with_args(arg1, arg2)
         "with args #{arg1} #{arg2}"
       end
     end.new
@@ -52,19 +52,27 @@ describe Bouncer do
 
     describe '.publish' do
       it 'publishes an event to all listeners without arguments' do
-        subject.subscribe(listener, scope: :on_change)
+        subject.subscribe(listener, scope: :main)
 
         expect(listener).to receive(:on_change)
 
-        subject.publish(:on_change)
+        subject.publish(:main, :on_change)
       end
 
       it 'publishes an event to all listeners with arguments' do
-        subject.subscribe(listener, scope: :with_args)
+        subject.subscribe(listener, scope: :main)
 
-        expect(listener).to receive(:with_args).with('first', 'second')
+        expect(listener).to receive(:on_change_with_args).with('first', 'second')
 
-        subject.publish(:with_args, 'first', 'second')
+        subject.publish(:main, :on_change_with_args, 'first', 'second')
+      end
+
+      it 'does not publish event to listeners in another scope' do
+        subject.subscribe(listener, scope: :bogus)
+
+        expect(listener).not_to receive(:on_change)
+
+        subject.publish(:main, :on_change)
       end
     end
   end

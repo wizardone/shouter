@@ -1,9 +1,8 @@
 # Bouncer
 [![Build Status](https://travis-ci.org/wizardone/bouncer.svg?branch=master)](https://travis-ci.org/wizardone/bouncer)
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/bouncer`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+`Bouncer` is a very simple and lightweight publish/subscription DSL for
+Ruby applications.
 
 ## Installation
 
@@ -24,12 +23,17 @@ Or install it yourself as:
 ## Usage
 ```ruby
 class A
-  subscribe(B.new, :changed)
+  subscribe(Listener.new, for: :my_scope)
 end
 
-class B
-  publish(:changed, self.id)
+class Listener
+  def on_change
+    "I`m changed"
+  end
 end
+
+A.publish(:my_scope, :on_change)
+=> "I`m changed"
 ```
 
 ## Development

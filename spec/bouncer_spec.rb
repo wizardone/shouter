@@ -105,5 +105,16 @@ describe Bouncer do
         expect(listener.options).to be_a(Hash)
       end
     end
+
+    describe '#for?' do
+      let(:listener) { Bouncer::Listener.new(Class.new, scope: :test) }
+      it 'returns true - the listener is for the scope' do
+        expect(listener.for?(:test)).to be_truthy
+      end
+
+      it 'returns false - the listener is not for the scope' do
+        expect(listener.for?(:other_test)).to be_falsey
+      end
+    end
   end
 end

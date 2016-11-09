@@ -17,7 +17,6 @@ module Bouncer
       end
 
       def notify(scope, event, args)
-        # Use some scope
         return if listeners.empty?
 
         listeners.select { |listener| listener.for?(scope) }.each do |listener|

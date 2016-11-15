@@ -97,6 +97,17 @@ describe Bouncer do
         subject.publish(:main, :on_change)
       end
     end
+
+    describe '.clear' do
+      it 'clears all listeners' do
+        subject.subscribe(listener, scope: :main)
+        subject.subscribe(listener, scope: :main)
+
+        subject.clear_listeners
+
+        expect(Bouncer::Store.listeners).to eq([])
+      end
+    end
   end
 
   context 'Bouncer::Store' do

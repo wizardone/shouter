@@ -15,4 +15,9 @@ module Bouncer
   def publish(scope, event, *args)
     Bouncer::Store.notify(scope, event, args)
   end
+
+  def clear
+    Bouncer::Store.clear
+  end
+  alias_method :clear_listeners, :clear
 end

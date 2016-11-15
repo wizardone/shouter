@@ -50,6 +50,28 @@ describe Bouncer do
       end
     end
 
+    describe '.unsubscribe' do
+      let(:object) { Object.new }
+
+      before do
+        subject.subscribe(object, scope: 'scope')
+      end
+
+      it 'sends the unsubscribe request to the store' do
+        expect(Bouncer::Store).to receive(:unregister).with(object)
+
+        subject.unsubscribe(object)
+      end
+
+      it 'unsubscribes an object from the store' do
+        expect(Bouncer::Store.listeners.first.object).to eq(object)
+
+        subject.unsubscribe(object)
+
+        expect(Bouncer::Store.listeners).to be_empty
+      end
+    end
+
     describe '.publish' do
       it 'publishes an event to all listeners without arguments' do
         subject.subscribe(listener, scope: :main)

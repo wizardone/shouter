@@ -8,6 +8,10 @@ module Bouncer
     Bouncer::Store.register(object, options)
   end
 
+  def unsubscribe(object)
+    Bouncer::Store.unregister(object)
+  end
+
   def publish(scope, event, *args)
     Bouncer::Store.notify(scope, event, args)
   end

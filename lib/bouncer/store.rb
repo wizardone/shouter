@@ -12,6 +12,10 @@ module Bouncer
         @@listeners << Bouncer::Listener.new(object, options)
       end
 
+      def unregister(object)
+        listeners.delete_if { |listener| listener.object == object }
+      end
+
       def clear
         @@listeners = []
       end

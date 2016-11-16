@@ -132,10 +132,16 @@ describe Bouncer do
   context 'Bouncer::Listener' do
     describe '#initialize' do
       it 'initializes the listener class' do
-        listener = Bouncer::Listener.new(Class.new, {})
+        listener = Bouncer::Listener.new(Class.new, scope: :main)
 
         expect(listener.object).to be_a(Class)
         expect(listener.options).to be_a(Hash)
+      end
+
+      it 'raises an error if no event scope is provided' do
+        expect {
+          Bouncer::Listener.new(Class.new, {})
+        }.to raise_error(Bouncer::ScopeMissingError)
       end
     end
 

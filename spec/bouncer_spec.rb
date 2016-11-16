@@ -52,13 +52,15 @@ describe Bouncer do
 
     describe '.unsubscribe' do
       let(:object) { Object.new }
+      let(:object_1) { Object.new }
+      let(:object_2) { Object.new }
 
       before do
         subject.subscribe(object, scope: 'scope')
       end
 
       it 'sends the unsubscribe request to the store' do
-        expect(Bouncer::Store).to receive(:unregister).with(object)
+        expect(Bouncer::Store).to receive(:unregister).with([object])
 
         subject.unsubscribe(object)
       end
@@ -69,6 +71,15 @@ describe Bouncer do
         subject.unsubscribe(object)
 
         expect(Bouncer::Store.listeners).to be_empty
+      end
+
+      it 'unsubscribes multiple objects from the store' do
+        subject.subscribe(object_1, scope: 'scope')
+        subject.subscribe(object_2, scope: 'scope')
+
+        subject.unsubscribe(object_1, object_2)
+
+        expect(Bouncer::Store.listeners.first.object).to eq(object)
       end
     end
 

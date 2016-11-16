@@ -1,15 +1,14 @@
 require 'bouncer/version'
 require 'bouncer/listener'
 require 'bouncer/store'
-require 'byebug'
 
 module Bouncer
   def subscribe(object, **options)
     Bouncer::Store.register(object, options)
   end
 
-  def unsubscribe(object)
-    Bouncer::Store.unregister(object)
+  def unsubscribe(*objects)
+    Bouncer::Store.unregister(objects)
   end
 
   def publish(scope, event, *args)

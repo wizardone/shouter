@@ -8,6 +8,10 @@ module Bouncer
 
     class << self
 
+      def inherited(subclass)
+        raise "#{self.to_s} is not meant to be inherited, it is a singleton class"
+      end
+
       def register(object, options)
         @@listeners << Bouncer::Listener.new(object, options)
       end

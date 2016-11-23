@@ -1,5 +1,8 @@
 require 'byebug'
 module Bouncer
+
+  class NoInheritenceAllowedError < StandardError; end
+
   class Store
 
     # Implement a simple Singleton pattern
@@ -9,7 +12,7 @@ module Bouncer
     class << self
 
       def inherited(subclass)
-        raise "#{self.to_s} is not meant to be inherited, it is a singleton class"
+        raise NoInheritenceAllowedError.new("#{self.class.to_s} is meant to be a singleton class and to not be inherited")
       end
 
       def register(object, options)

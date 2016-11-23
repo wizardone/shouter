@@ -128,6 +128,12 @@ describe Bouncer do
       expect { subject.new }.to raise_error NoMethodError
     end
 
+    it 'does not allow inheritence' do
+      expect {
+        Class.new(subject) do; end
+      }.to raise_error(Bouncer::NoInheritenceAllowedError)
+    end
+
     it 'returns the current store objects' do
       object = Object.new
       options = { scope: 'scope', default: true }

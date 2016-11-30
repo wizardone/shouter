@@ -1,4 +1,5 @@
 module Bouncer
+
   class ScopeMissingError < StandardError
     def initialize
       'You must supply a scope for running the events'

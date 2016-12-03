@@ -15,14 +15,12 @@ module Bouncer
         raise NoInheritenceAllowedError.new("#{self.class.to_s} is meant to be a singleton class and to not be inherited")
       end
 
-      def register(object, options)
-        @@listeners << Bouncer::Listener.new(object, options)
+      def register(objects, options)
+        objects.each { |object| @@listeners << Bouncer::Listener.new(object, options) }
       end
 
       def unregister(objects)
-        objects.each do |object|
-          listeners.delete_if { |listener| listener.object == object }
-        end
+        objects.each { |object| listeners.delete_if { |listener| listener.object == object } }
       end
 
       def clear

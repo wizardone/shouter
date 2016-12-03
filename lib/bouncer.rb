@@ -3,8 +3,8 @@ require 'bouncer/listener'
 require 'bouncer/store'
 
 module Bouncer
-  def subscribe(object, **options)
-    Bouncer::Store.register(object, options)
+  def subscribe(*objects, **options)
+    Bouncer::Store.register(objects, options)
   end
 
   def unsubscribe(*objects)

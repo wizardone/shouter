@@ -35,7 +35,7 @@ describe Bouncer do
         object = Object.new
         options = { scope: 'scope' }
 
-        expect(Bouncer::Store).to receive(:register).with(object, options)
+        expect(Bouncer::Store).to receive(:register).with([object], options)
 
         subject.subscribe(object, options)
       end
@@ -138,7 +138,7 @@ describe Bouncer do
       object = Object.new
       options = { scope: 'scope', default: true }
 
-      subject.register(object, options)
+      subject.register([object], options)
 
       expect(subject.listeners).not_to be_empty
       expect(subject.listeners.size).to eq 1

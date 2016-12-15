@@ -1,4 +1,3 @@
-require 'byebug'
 module Bouncer
 
   class NoInheritenceAllowedError < StandardError; end
@@ -34,6 +33,8 @@ module Bouncer
           klass = listener.object
           klass.public_send(event, *args) if klass.respond_to?(event)
         end
+        # TODO: run callbacks here, for example remove a listener if it is
+        # meant to execute only once
       end
 
       def listeners

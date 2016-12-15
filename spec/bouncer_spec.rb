@@ -172,5 +172,12 @@ describe Bouncer do
         expect(listener.for?(:other_test)).to be_falsey
       end
     end
+
+    describe '#single?' do
+      let(:listener) { Bouncer::Listener.new(Class.new, scope: 'test', single: true) }
+      it 'returns true - the listener is for the scope' do
+        expect(listener.single?).to be_truthy
+      end
+    end
   end
 end

@@ -19,5 +19,9 @@ module Bouncer
     def for?(scope)
       options[:scope] == scope
     end
+
+    def single?
+      options[:single] == true
+    end
   end
 end

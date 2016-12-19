@@ -32,13 +32,18 @@ module Bouncer
         listeners.select { |listener| listener.for?(scope) }.each do |listener|
           klass = listener.object
           klass.public_send(event, *args) if klass.respond_to?(event)
+          run_callback_for(listener)
         end
-        # TODO: run callbacks here, for example remove a listener if it is
-        # meant to execute only once
       end
 
       def listeners
         @@listeners
+      end
+
+      private
+
+      def run_callback_for(listener)
+        listener.callback
       end
     end
   end

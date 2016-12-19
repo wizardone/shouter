@@ -162,8 +162,19 @@ describe Bouncer do
       end
     end
 
+    describe '#callback' do
+      let(:listener) { Bouncer::Listener.new(Class.new, scope: 'test', single: true) }
+
+      it 'performs a callback action on the listener' do
+        expect(Bouncer::Store).to receive(:unregister).with(listener.object).once
+
+        listener.callback
+      end
+    end
+
     describe '#for?' do
       let(:listener) { Bouncer::Listener.new(Class.new, scope: :test) }
+
       it 'returns true - the listener is for the scope' do
         expect(listener.for?(:test)).to be_truthy
       end
@@ -175,6 +186,7 @@ describe Bouncer do
 
     describe '#single?' do
       let(:listener) { Bouncer::Listener.new(Class.new, scope: 'test', single: true) }
+
       it 'returns true - the listener is for the scope' do
         expect(listener.single?).to be_truthy
       end

@@ -16,6 +16,10 @@ module Bouncer
       @options = options
     end
 
+    def callback
+      Store.unregister(object) if single?
+    end
+
     def for?(scope)
       options[:scope] == scope
     end

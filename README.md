@@ -36,6 +36,20 @@ end
 A.publish(:my_scope, :on_change)
 => "I`m changed"
 ```
+You can subscribe an object for single execution, after that the object
+will be removed from the listener store
+```ruby
+class A
+  subscribe(Listener.new, for: :my_scope, single: true)
+end
+
+A.publish(:my_scope, :on_change)
+=> "I`m changed"
+
+A.publish(:my_scope, :on_change)
+=> nil
+
+```
 
 ## Development
 

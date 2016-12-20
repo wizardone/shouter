@@ -22,6 +22,7 @@ module Bouncer
       end
 
       def unregister(objects)
+        puts objects.first.inspect
         mutex.synchronize do
           objects.each { |object| listeners.delete_if { |listener| listener.object == object } }
         end
@@ -39,7 +40,7 @@ module Bouncer
         listeners.select { |listener| listener.for?(scope) }.each do |listener|
           klass = listener.object
           klass.public_send(event, *args) if klass.respond_to?(event)
-          run_callback_for(listener)
+          listener.callback
         end
       end
 
@@ -49,12 +50,6 @@ module Bouncer
 
       def mutex
         @@mutex
-      end
-
-      private
-
-      def run_callback_for(listener)
-        listener.callback
       end
     end
   end

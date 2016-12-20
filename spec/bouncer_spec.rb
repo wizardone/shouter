@@ -192,4 +192,8 @@ describe Bouncer do
       end
     end
   end
+
+  context 'threadsafety' do
+
+  end
 end

@@ -7,6 +7,7 @@ module Bouncer
     # Implement a simple Singleton pattern
     private_class_method :new
     @@listeners = []
+    @@mutex = Mutex.new
 
     class << self
 
@@ -15,15 +16,21 @@ module Bouncer
       end
 
       def register(objects, options)
-        objects.each { |object| @@listeners << Bouncer::Listener.new(object, options) }
+        mutex.synchronize do
+          objects.each { |object| @@listeners << Bouncer::Listener.new(object, options) }
+        end
       end
 
       def unregister(objects)
-        objects.each { |object| listeners.delete_if { |listener| listener.object == object } }
+        mutex.synchronize do
+          objects.each { |object| listeners.delete_if { |listener| listener.object == object } }
+        end
       end
 
       def clear
-        @@listeners = []
+        mutex.synchronize do
+          @@listeners = []
+        end
       end
 
       def notify(scope, event, args)
@@ -38,6 +45,10 @@ module Bouncer
 
       def listeners
         @@listeners
+      end
+
+      def mutex
+        @@mutex
       end
 
       private

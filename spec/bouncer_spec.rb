@@ -131,7 +131,7 @@ describe Bouncer do
     it 'does not allow inheritence' do
       expect {
         Class.new(subject) do; end
-      }.to raise_error(Bouncer::NoInheritenceAllowedError)
+      }.to raise_error(Bouncer::NoInheritanceAllowedError)
     end
 
     it 'returns the current store objects' do

@@ -1,6 +1,6 @@
 module Bouncer
 
-  class NoInheritenceAllowedError < StandardError; end
+  class NoInheritanceAllowedError < StandardError; end
 
   class Store
 
@@ -11,7 +11,7 @@ module Bouncer
     class << self
 
       def inherited(subclass)
-        raise NoInheritenceAllowedError.new("#{self.class.to_s} is meant to be a singleton class and to not be inherited")
+        raise NoInheritanceAllowedError.new("#{self.class.to_s} is meant to be a singleton class and to not be inherited")
       end
 
       def register(objects, options)

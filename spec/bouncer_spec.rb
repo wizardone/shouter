@@ -194,6 +194,18 @@ describe Bouncer do
   end
 
   context 'threadsafety' do
+    let(:object1) { Object.new }
+    let(:object2) { Object.new }
+    let(:object3) { Object.new }
 
+    it 'subscribes to the store via multiple threads' do
+      [].tap do |threads|
+        threads << Thread.new { subject.subscribe(object1, scope: 'main') }
+        threads << Thread.new { subject.subscribe(object2, scope: 'main') }
+        threads << Thread.new { subject.subscribe(object3, scope: 'main') }
+      end.each(&:join)
+
+      expect(Bouncer::Store.listeners.count).to eq(3)
+    end
   end
 end

@@ -22,7 +22,6 @@ module Bouncer
       end
 
       def unregister(objects)
-        puts objects.first.inspect
         mutex.synchronize do
           objects.each { |object| listeners.delete_if { |listener| listener.object == object } }
         end

@@ -16,24 +16,12 @@ module Bouncer
       @options = options
     end
 
-    def callback
-      Callback.call { Store.unregister(object) } if single?
-    end
-
     def for?(scope)
       options[:scope] == scope
     end
 
     def single?
       options[:single] == true
-    end
-  end
-
-  class Callback
-    class << self
-      def call(&block)
-        yield
-      end
     end
   end
 end

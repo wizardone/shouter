@@ -39,7 +39,8 @@ module Bouncer
         listeners.select { |listener| listener.for?(scope) }.each do |listener|
           klass = listener.object
           klass.public_send(event, *args) if klass.respond_to?(event)
-          listener.callback
+          # Serves as callback
+          yield if block_given?
         end
       end
 

@@ -16,6 +16,10 @@ describe Bouncer do
       def on_change_with_args(arg1, arg2)
         "with args #{arg1} #{arg2}"
       end
+
+      def callback
+        'I am callback'
+      end
     end.new
   end
 
@@ -162,16 +166,6 @@ describe Bouncer do
       end
     end
 
-    describe '#callback' do
-      let(:listener) { Bouncer::Listener.new(Class.new, scope: 'test', single: true) }
-
-      it 'performs a callback action on the listener' do
-        expect(Bouncer::Store).to receive(:unregister).with(listener.object).once
-
-        listener.callback
-      end
-    end
-
     describe '#for?' do
       let(:listener) { Bouncer::Listener.new(Class.new, scope: :test) }
 
@@ -201,6 +195,18 @@ describe Bouncer do
       end.each(&:join)
 
       expect(Bouncer::Store.listeners.count).to eq(count)
+    end
+  end
+
+  context 'callbacks' do
+    before { subject.subscribe(listener, scope: :main) }
+
+    it 'invokes a callback block' do
+      expect(listener).to receive(:callback).once
+
+      subject.publish(:main, :on_change) do
+        listener.callback
+      end
     end
   end
 end

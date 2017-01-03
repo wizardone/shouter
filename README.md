@@ -24,6 +24,7 @@ Or install it yourself as:
 ## Usage
 ```ruby
 class A
+  extend Bouncer
   subscribe(Listener.new, for: :my_scope)
 end
 
@@ -36,10 +37,20 @@ end
 A.publish(:my_scope, :on_change)
 => "I`m changed"
 ```
+
+You can subscribe multiple objects:
+```ruby
+class A
+  extend Bouncer
+  subscribe(Listener.new, Listener1.new, Listener2.new, for: :my_scope)
+end
+```
+
 You can subscribe an object for single execution, after that the object
 will be removed from the listener store
 ```ruby
 class A
+  extend Bouncer
   subscribe(Listener.new, for: :my_scope, single: true)
 end
 
@@ -49,6 +60,15 @@ A.publish(:my_scope, :on_change)
 A.publish(:my_scope, :on_change)
 => nil
 
+```
+
+You can also pass a block to the publish method, which will serve as a
+successful callback, meaning it will only get executed after the event
+has been triggered
+```ruby
+A.publish(:my_scope, :on_change) do
+  puts "I am callback"
+end
 ```
 
 ## Development

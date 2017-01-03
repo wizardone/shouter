@@ -11,8 +11,8 @@ module Bouncer
     Bouncer::Store.unregister(objects)
   end
 
-  def publish(scope, event, *args)
-    Bouncer::Store.notify(scope, event, args)
+  def publish(scope, event, *args, &block)
+    Bouncer::Store.notify(scope, event, args, &block)
   end
 
   def clear

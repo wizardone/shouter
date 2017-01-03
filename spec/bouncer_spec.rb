@@ -202,7 +202,8 @@ describe Bouncer do
     before { subject.subscribe(listener, scope: :main) }
 
     it 'invokes a callback block' do
-      expect(listener).to receive(:callback).once
+      expect(listener).to receive(:on_change).ordered
+      expect(listener).to receive(:callback).ordered
 
       subject.publish(:main, :on_change) do
         listener.callback

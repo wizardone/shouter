@@ -111,6 +111,15 @@ describe Bouncer do
 
         subject.publish(:main, :on_change)
       end
+
+      it 'removes the listener from the store if it is single' do
+        subject.subscribe(listener, scope: :main, single: true)
+        expect(Bouncer::Store.listeners).to_not be_empty
+
+        subject.publish(:main, :on_change)
+
+        expect(Bouncer::Store.listeners).to be_empty
+      end
     end
 
     describe '.clear' do

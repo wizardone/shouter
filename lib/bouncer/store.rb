@@ -41,6 +41,7 @@ module Bouncer
           klass.public_send(event, *args) if klass.respond_to?(event)
           # Serves as callback
           yield if block_given?
+          unregister([klass]) if listener.single?
         end
       end
 

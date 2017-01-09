@@ -23,7 +23,7 @@ module Bouncer
 
       def unregister(objects)
         mutex.synchronize do
-          objects.each { |object| listeners.delete_if { |listener| listener.object == object } }
+          [*objects].each { |object| listeners.delete_if { |listener| listener.object == object } }
         end
       end
 
@@ -41,7 +41,7 @@ module Bouncer
           klass.public_send(event, *args) if klass.respond_to?(event)
           # Serves as callback
           yield if block_given?
-          unregister([klass]) if listener.single?
+          unregister(klass) if listener.single?
         end
       end
 

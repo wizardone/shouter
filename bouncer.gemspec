@@ -9,8 +9,8 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Stefan Slaveykov"]
   spec.email         = ["wizard.oneandonly@gmail.com"]
 
-  spec.summary       = %q{Small subscription based system in Ruby}
-  spec.description   = %q{wanna know more?}
+  spec.summary       = %q{Small publish/subscription based system in Ruby}
+  spec.description   = %q{A small gem that allows you to publish and subscribe to events}
   spec.homepage      = "https://github.com/wizardone/bouncer"
   spec.license       = "MIT"
 
@@ -26,6 +26,7 @@ Gem::Specification.new do |spec|
   spec.bindir        = "exe"
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
+  spec.required_ruby_version = '~> 2.0'
 
   spec.add_development_dependency "bundler", "~> 1.12"
   spec.add_development_dependency "rake", "~> 10.0"

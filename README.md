@@ -1,8 +1,8 @@
-# Bouncer
+# Shouter
 [![Build Status](https://travis-ci.org/wizardone/bouncer.svg?branch=master)](https://travis-ci.org/wizardone/bouncer)
 [![codecov](https://codecov.io/gh/wizardone/bouncer/branch/master/graph/badge.svg)](https://codecov.io/gh/wizardone/bouncer)
 
-`Bouncer` is a very simple and lightweight publish/subscription DSL for
+`Shouter` is a very simple and lightweight publish/subscription DSL for
 Ruby applications.
 
 ## Installation
@@ -10,7 +10,7 @@ Ruby applications.
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'bouncer'
+gem 'shouter'
 ```
 
 And then execute:
@@ -19,12 +19,12 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install bouncer
+    $ gem install shouter
 
 ## Usage
 ```ruby
 class A
-  extend Bouncer
+  extend Shouter
   subscribe(Listener.new, for: :my_scope)
 end
 
@@ -41,7 +41,7 @@ A.publish(:my_scope, :on_change)
 You can subscribe multiple objects:
 ```ruby
 class A
-  extend Bouncer
+  extend Shouter
   subscribe(Listener.new, Listener1.new, Listener2.new, for: :my_scope)
 end
 ```
@@ -50,7 +50,7 @@ You can subscribe an object for single execution, after that the object
 will be removed from the listener store
 ```ruby
 class A
-  extend Bouncer
+  extend Shouter
   subscribe(Listener.new, for: :my_scope, single: true)
 end
 
@@ -79,7 +79,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/wizardone/bouncer. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+Bug reports and pull requests are welcome on GitHub at https://github.com/wizardone/shouter. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
 
 
 ## License

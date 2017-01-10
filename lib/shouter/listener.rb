@@ -1,4 +1,4 @@
-module Bouncer
+module Shouter
 
   class ScopeMissingError < StandardError
     def initialize
@@ -10,7 +10,7 @@ module Bouncer
     attr_reader :object, :options
 
     def initialize(object, options)
-      raise Bouncer::ScopeMissingError unless options[:scope]
+      raise Shouter::ScopeMissingError unless options[:scope]
 
       @object = object
       @options = options

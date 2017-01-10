@@ -1,4 +1,4 @@
-module Bouncer
+module Shouter
 
   NoInheritanceAllowedError = Class.new(StandardError)
 
@@ -17,7 +17,7 @@ module Bouncer
 
       def register(objects, options)
         mutex.synchronize do
-          objects.each { |object| @@listeners << Bouncer::Listener.new(object, options) }
+          objects.each { |object| @@listeners << Shouter::Listener.new(object, options) }
         end
       end
 

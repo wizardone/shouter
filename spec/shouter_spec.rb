@@ -1,9 +1,9 @@
 require 'spec_helper'
 
-describe Bouncer do
+describe Shouter do
   subject do
     Class.new do
-      extend Bouncer
+      extend Shouter
     end
   end
 
@@ -23,10 +23,10 @@ describe Bouncer do
     end.new
   end
 
-  before { Bouncer::Store.clear }
+  before { Shouter::Store.clear }
 
   it 'has a version number' do
-    expect(Bouncer::VERSION).not_to be nil
+    expect(Shouter::VERSION).not_to be nil
   end
 
   it 'does something useful' do
@@ -39,7 +39,7 @@ describe Bouncer do
         object = Object.new
         options = { scope: 'scope' }
 
-        expect(Bouncer::Store).to receive(:register).with([object], options)
+        expect(Shouter::Store).to receive(:register).with([object], options)
 
         subject.subscribe(object, options)
       end
@@ -50,7 +50,7 @@ describe Bouncer do
 
         subject.subscribe(object, options)
 
-        expect(Bouncer::Store.listeners).not_to be_empty
+        expect(Shouter::Store.listeners).not_to be_empty
       end
     end
 
@@ -64,17 +64,17 @@ describe Bouncer do
       end
 
       it 'sends the unsubscribe request to the store' do
-        expect(Bouncer::Store).to receive(:unregister).with([object])
+        expect(Shouter::Store).to receive(:unregister).with([object])
 
         subject.unsubscribe(object)
       end
 
       it 'unsubscribes an object from the store' do
-        expect(Bouncer::Store.listeners.first.object).to eq(object)
+        expect(Shouter::Store.listeners.first.object).to eq(object)
 
         subject.unsubscribe(object)
 
-        expect(Bouncer::Store.listeners).to be_empty
+        expect(Shouter::Store.listeners).to be_empty
       end
 
       it 'unsubscribes multiple objects from the store' do
@@ -83,7 +83,7 @@ describe Bouncer do
 
         subject.unsubscribe(object_1, object_2)
 
-        expect(Bouncer::Store.listeners.first.object).to eq(object)
+        expect(Shouter::Store.listeners.first.object).to eq(object)
       end
     end
 
@@ -114,11 +114,11 @@ describe Bouncer do
 
       it 'removes the listener from the store if it is single' do
         subject.subscribe(listener, scope: :main, single: true)
-        expect(Bouncer::Store.listeners).to_not be_empty
+        expect(Shouter::Store.listeners).to_not be_empty
 
         subject.publish(:main, :on_change)
 
-        expect(Bouncer::Store.listeners).to be_empty
+        expect(Shouter::Store.listeners).to be_empty
       end
     end
 
@@ -129,13 +129,13 @@ describe Bouncer do
 
         subject.clear_listeners
 
-        expect(Bouncer::Store.listeners).to eq([])
+        expect(Shouter::Store.listeners).to eq([])
       end
     end
   end
 
-  context 'Bouncer::Store' do
-    subject { Bouncer::Store }
+  context 'Shouter::Store' do
+    subject { Shouter::Store }
 
     it 'is a singleton class' do
       expect { subject.new }.to raise_error NoMethodError
@@ -144,7 +144,7 @@ describe Bouncer do
     it 'does not allow inheritence' do
       expect {
         Class.new(subject) do; end
-      }.to raise_error(Bouncer::NoInheritanceAllowedError)
+      }.to raise_error(Shouter::NoInheritanceAllowedError)
     end
 
     it 'returns the current store objects' do
@@ -155,14 +155,14 @@ describe Bouncer do
 
       expect(subject.listeners).not_to be_empty
       expect(subject.listeners.size).to eq 1
-      expect(subject.listeners.first).to be_a(Bouncer::Listener)
+      expect(subject.listeners.first).to be_a(Shouter::Listener)
     end
   end
 
-  context 'Bouncer::Listener' do
+  context 'Shouter::Listener' do
     describe '#initialize' do
       it 'initializes the listener class' do
-        listener = Bouncer::Listener.new(Class.new, scope: :main)
+        listener = Shouter::Listener.new(Class.new, scope: :main)
 
         expect(listener.object).to be_a(Class)
         expect(listener.options).to be_a(Hash)
@@ -170,13 +170,13 @@ describe Bouncer do
 
       it 'raises an error if no event scope is provided' do
         expect {
-          Bouncer::Listener.new(Class.new, {})
-        }.to raise_error(Bouncer::ScopeMissingError)
+          Shouter::Listener.new(Class.new, {})
+        }.to raise_error(Shouter::ScopeMissingError)
       end
     end
 
     describe '#for?' do
-      let(:listener) { Bouncer::Listener.new(Class.new, scope: :test) }
+      let(:listener) { Shouter::Listener.new(Class.new, scope: :test) }
 
       it 'returns true - the listener is for the scope' do
         expect(listener.for?(:test)).to be_truthy
@@ -188,7 +188,7 @@ describe Bouncer do
     end
 
     describe '#single?' do
-      let(:listener) { Bouncer::Listener.new(Class.new, scope: 'test', single: true) }
+      let(:listener) { Shouter::Listener.new(Class.new, scope: 'test', single: true) }
 
       it 'returns true - the listener is for the scope' do
         expect(listener.single?).to be_truthy
@@ -203,7 +203,7 @@ describe Bouncer do
         threads << Thread.new { count.times { subject.subscribe(Object.new, scope: 'main') } }
       end.each(&:join)
 
-      expect(Bouncer::Store.listeners.count).to eq(count)
+      expect(Shouter::Store.listeners.count).to eq(count)
     end
   end
 

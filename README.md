@@ -1,6 +1,6 @@
 # Shouter
-[![Build Status](https://travis-ci.org/wizardone/bouncer.svg?branch=master)](https://travis-ci.org/wizardone/bouncer)
-[![codecov](https://codecov.io/gh/wizardone/bouncer/branch/master/graph/badge.svg)](https://codecov.io/gh/wizardone/bouncer)
+[![Build Status](https://travis-ci.org/wizardone/shouter.svg?branch=master)](https://travis-ci.org/wizardone/shouter)
+[![codecov](https://codecov.io/gh/wizardone/shouter/branch/master/graph/badge.svg)](https://codecov.io/gh/wizardone/shouter)
 
 `Shouter` is a very simple and lightweight publish/subscription DSL for
 Ruby applications.

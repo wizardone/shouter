@@ -71,6 +71,13 @@ A.publish(:my_scope, :on_change) do
 end
 ```
 
+To unsubscribe single or multiple objects you can call the `unsubscribe` method
+```ruby
+A.unsubscribe(Listener1, Listener2)
+```
+
+The `clear` method removes all listeners from the store.
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.

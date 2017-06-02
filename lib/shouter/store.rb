@@ -33,15 +33,15 @@ module Shouter
         end
       end
 
-      def notify(scope, event, args)
+      def notify(scope, event, args, &block)
         return if listeners.empty?
 
         listeners.select { |listener| listener.for?(scope) }.each do |listener|
           klass = listener.object
-          klass.public_send(event, *args) if klass.respond_to?(event)
-          # Serves as callback
-          yield if block_given?
-          unregister(klass) if listener.single?
+          if klass.respond_to?(event)
+            klass.public_send(event, *args)
+            Shouter::Callback.(listener, block)
+          end
         end
       end
 

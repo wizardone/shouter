@@ -1,5 +1,6 @@
 module Shouter
-  class Callback
+  class Hook
+
     class << self
       def call(listener, callback)
         callback.call if callback.is_a?(Proc)

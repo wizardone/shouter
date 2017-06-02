@@ -40,7 +40,7 @@ module Shouter
           klass = listener.object
           if klass.respond_to?(event)
             klass.public_send(event, *args)
-            Shouter::Callback.(listener, block)
+            Shouter::Hook.(listener, block)
           end
         end
       end

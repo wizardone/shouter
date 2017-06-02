@@ -23,5 +23,9 @@ module Shouter
     def single?
       options[:single] == true
     end
+
+    def if
+      options[:if]
+    end
   end
 end

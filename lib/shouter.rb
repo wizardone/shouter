@@ -1,5 +1,5 @@
 require 'shouter/version'
-require 'shouter/callback'
+require 'shouter/hook'
 require 'shouter/listener'
 require 'shouter/store'
 

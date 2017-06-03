@@ -16,6 +16,14 @@ module Shouter
       @options = options
     end
 
+    def fire_hook!(callback)
+      Shouter::Hook.(self, callback)
+    end
+
+    def fire_guard!
+      Shouter::Guard.(self)
+    end
+
     def for?(scope)
       options[:scope] == scope
     end
@@ -24,8 +32,8 @@ module Shouter
       options[:single] == true
     end
 
-    def if
-      options[:if]
+    def guard
+      options[:guard]
     end
   end
 end

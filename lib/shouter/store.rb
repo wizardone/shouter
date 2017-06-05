@@ -37,13 +37,7 @@ module Shouter
         return if listeners.empty?
 
         listeners.select { |listener| listener.for?(scope) }.each do |listener|
-          listener.notify(event, args, block)
-         # klass = listener.object
-         # Shouter::Guard.(listener)
-         # if klass.respond_to?(event)
-         #   klass.public_send(event, *args)
-         #   Shouter::Hook.(listener, block)
-         # end
+          listener.notify(event, args, &block)
         end
       end
 

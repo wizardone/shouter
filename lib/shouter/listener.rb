@@ -1,3 +1,4 @@
+require 'byebug'
 module Shouter
 
   class ScopeMissingError < StandardError
@@ -16,13 +17,21 @@ module Shouter
       @options = options
     end
 
-    def notify(event, args, block)
+    def notify(event, args, &block)
       return unless object.respond_to?(event)
 
       fire_guard!
-      object.public_send(event, args)
-      fire_hook!(block)
+      object.public_send(event, *args)
+      fire_hook!(block || callback)
+
+      Store.unregister(object) if single?
     end
+
+    def for?(scope)
+      options[:scope] == scope
+    end
+
+    private
 
     def fire_hook!(callback)
       Shouter::Hook.(callback)
@@ -32,15 +41,13 @@ module Shouter
       Shouter::Guard.(guard)
     end
 
-    def for?(scope)
-      options[:scope] == scope
+    def callback
+      options[:callback]
     end
 
     def single?
       options[:single] == true
     end
-
-    private
 
     def guard
       options[:guard] || -> {}

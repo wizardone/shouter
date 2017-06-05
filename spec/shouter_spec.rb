@@ -186,14 +186,6 @@ describe Shouter do
         expect(listener.for?(:other_test)).to be_falsey
       end
     end
-
-    describe '#single?' do
-      let(:listener) { Shouter::Listener.new(Class.new, scope: 'test', single: true) }
-
-      it 'returns true - the listener is for the scope' do
-        expect(listener.single?).to be_truthy
-      end
-    end
   end
 
   context 'threadsafety' do
@@ -208,15 +200,25 @@ describe Shouter do
   end
 
   context 'callbacks' do
-    before { subject.subscribe(listener, scope: :main) }
-
     it 'invokes a callback block' do
+      subject.subscribe(listener, scope: :main)
+
       expect(listener).to receive(:on_change).ordered
       expect(listener).to receive(:callback).ordered
 
       subject.publish(:main, :on_change) do
         listener.callback
       end
+    end
+
+    it 'invokes a dedicated callback' do
+      callback = -> { listener.callback }
+      subject.subscribe(listener, scope: :main, callback: callback)
+
+      expect(listener).to receive(:on_change).ordered
+      expect(listener).to receive(:callback).ordered
+
+      subject.publish(:main, :on_change)
     end
   end
 end

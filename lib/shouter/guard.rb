@@ -2,8 +2,8 @@ module Shouter
   class Guard
 
     class << self
-      def call(listener)
-        listener.guard.call
+      def call(guard)
+        guard.call
       end
     end
   end

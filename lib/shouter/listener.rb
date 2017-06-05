@@ -16,12 +16,20 @@ module Shouter
       @options = options
     end
 
+    def notify(event, args, block)
+      return unless object.respond_to?(event)
+
+      fire_guard!
+      object.public_send(event, args)
+      fire_hook!(block)
+    end
+
     def fire_hook!(callback)
-      Shouter::Hook.(self, callback)
+      Shouter::Hook.(callback)
     end
 
     def fire_guard!
-      Shouter::Guard.(self)
+      Shouter::Guard.(guard)
     end
 
     def for?(scope)
@@ -32,8 +40,10 @@ module Shouter
       options[:single] == true
     end
 
+    private
+
     def guard
-      options[:guard]
+      options[:guard] || -> {}
     end
   end
 end

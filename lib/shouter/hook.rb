@@ -2,10 +2,10 @@ module Shouter
   class Hook
 
     class << self
-      def call(listener, callback)
+      def call(callback)
         # TODO: remove redundant ifs
         callback.call if callback.is_a?(Proc)
-        Store.unregister(listener.object) if listener.single?
+        #Store.unregister(listener.object) if listener.single?
       end
     end
   end

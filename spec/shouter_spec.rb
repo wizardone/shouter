@@ -199,6 +199,24 @@ describe Shouter do
     end
   end
 
+  context 'guard clauses' do
+    it 'allows the execution of events' do
+      subject.subscribe(listener, scope: :main, guard: ->() { true })
+
+      expect(subject).to receive(:on_change)
+
+      subject.publish(:main, :on_change)
+    end
+
+    it 'stops the execution of events' do
+      subject.subscribe(listener, scope: :main, guard: ->() { false })
+
+      expect(subject).to_not receive(:on_change)
+
+      subject.publish(:main, :on_change)
+    end
+  end
+
   context 'callbacks' do
     it 'invokes a callback block' do
       subject.subscribe(listener, scope: :main)

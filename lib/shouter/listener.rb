@@ -1,4 +1,3 @@
-require 'byebug'
 module Shouter
 
   class ScopeMissingError < StandardError
@@ -19,12 +18,12 @@ module Shouter
 
     def notify(event, args, &block)
       return unless object.respond_to?(event)
+      if fire_guard!
+        object.public_send(event, *args)
+        fire_hook!(callback || block)
 
-      fire_guard!
-      object.public_send(event, *args)
-      fire_hook!(block || callback)
-
-      Store.unregister(object) if single?
+        Store.unregister(object) if single?
+      end
     end
 
     def for?(scope)
@@ -50,7 +49,7 @@ module Shouter
     end
 
     def guard
-      options[:guard] || -> {}
+      options[:guard]
     end
   end
 end

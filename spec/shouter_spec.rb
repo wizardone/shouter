@@ -201,17 +201,17 @@ describe Shouter do
 
   context 'guard clauses' do
     it 'allows the execution of events' do
-      subject.subscribe(listener, scope: :main, guard: ->() { true })
+      subject.subscribe(listener, scope: :main, guard: ->() { listener.respond_to?(:on_change) })
 
-      expect(subject).to receive(:on_change)
+      expect(listener).to receive(:on_change)
 
       subject.publish(:main, :on_change)
     end
 
     it 'stops the execution of events' do
-      subject.subscribe(listener, scope: :main, guard: ->() { false })
+      subject.subscribe(listener, scope: :main, guard: ->() { listener.is_a?(Hash) })
 
-      expect(subject).to_not receive(:on_change)
+      expect(listener).not_to receive(:on_change)
 
       subject.publish(:main, :on_change)
     end

@@ -76,6 +76,21 @@ To unsubscribe single or multiple objects you can call the `unsubscribe` method
 A.unsubscribe(Listener1, Listener2)
 ```
 
+Since version `1.0.1`:
+
+Alternatively you can pass the callback option when subscribing.
+It accepts a callable object:
+```ruby
+subscribe(Listener.new, for: :my_scope, callback: ->() { perform_async })
+```
+
+You can now add a `guard` clause which will stop the execution of events
+unless it returns `true`. Guard clauses accept callable objects
+```ruby
+subscribe(Listener.new, for: :my_scope, guard: Proc.new { some_listener.respond_to?(:my_method) })
+```
+
+
 The `clear` method removes all listeners from the store.
 
 ## Development

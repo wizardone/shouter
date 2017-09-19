@@ -35,8 +35,10 @@ describe Shouter do
 
   context 'main interface' do
     describe '.subscribe' do
+
+      let(:object) { Object.new }
+
       it 'sends the object to the store' do
-        object = Object.new
         options = { scope: 'scope' }
 
         expect(Shouter::Store).to receive(:register).with([object], options)
@@ -45,12 +47,17 @@ describe Shouter do
       end
 
       it 'sends the options to the listener' do
-        object = Object.new
         options = { scope: 'updates' }
 
         subject.subscribe(object, options)
 
         expect(Shouter::Store.listeners).not_to be_empty
+      end
+
+      it 'does not subscribe the same object twice' do
+        subject.subscribe(object, object, scope: 'unique')
+
+        expect(Shouter::Store.listeners.length).to eq(1)
       end
     end
 
@@ -129,7 +136,7 @@ describe Shouter do
 
         subject.clear_listeners
 
-        expect(Shouter::Store.listeners).to eq([])
+        expect(Shouter::Store.listeners).to be_empty
       end
     end
   end
@@ -175,15 +182,20 @@ describe Shouter do
       end
     end
 
-    describe '#for?' do
-      let(:listener) { Shouter::Listener.new(Class.new, scope: :test) }
+    context 'scope execution' do
 
-      it 'returns true - the listener is for the scope' do
-        expect(listener.for?(:test)).to be_truthy
+      let(:listener_object) { Shouter::Listener.new(listener, scope: :test) }
+
+      it 'executes the listener if the proper scope is present' do
+        expect(listener).to receive(:on_change)
+
+        listener_object.notify(:test, :on_change, [])
       end
 
-      it 'returns false - the listener is not for the scope' do
-        expect(listener.for?(:other_test)).to be_falsey
+      it 'does not execute the listener if the scope is wrong' do
+        expect(listener).to_not receive(:on_change)
+
+        listener_object.notify(:bollocks, :on_change, [])
       end
     end
   end

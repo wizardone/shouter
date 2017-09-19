@@ -61,6 +61,10 @@ A.publish(:my_scope, :on_change)
 => nil
 
 ```
+All the arguments are passed to the method as well:
+```ruby
+A.publish(:my_scope, :on_change_with_arguments, 'argument_1', 'argument_2')
+```
 
 You can also pass a block to the publish method, which will serve as a
 successful callback, meaning it will only get executed after the event

@@ -37,6 +37,15 @@ end
 A.publish(:my_scope, :on_change)
 => "I`m changed"
 ```
+If you want asyncronous execution, using separate threads you can supply
+the `async` option. By default it is set to `false`
+```ruby
+class A
+  extend Shouter
+  subscribe(Listener.new, for: :my_async_scope, async: true)
+end
+```
+Now whenever you `publish` and event it will be run in a separate thread
 
 You can subscribe multiple objects:
 ```ruby
@@ -59,7 +68,6 @@ A.publish(:my_scope, :on_change)
 
 A.publish(:my_scope, :on_change)
 => nil
-
 ```
 All the arguments are passed to the method as well:
 ```ruby

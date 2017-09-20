@@ -162,7 +162,7 @@ describe Shouter do
 
       expect(subject.listeners).not_to be_empty
       expect(subject.listeners.size).to eq 1
-      expect(subject.listeners.first).to be_a(Shouter::Listener)
+      expect(subject.listeners.first).to be_a(Shouter::Listeners::Sync)
     end
   end
 

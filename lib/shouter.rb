@@ -2,9 +2,19 @@ require 'shouter/version'
 require 'shouter/hook'
 require 'shouter/guard'
 require 'shouter/listener'
+require 'shouter/listeners/async'
+require 'shouter/listeners/sync'
 require 'shouter/store'
+require 'shouter/builder'
 
 module Shouter
+
+  class ScopeMissingError < StandardError
+    def initialize
+      'You must supply a scope for running the events'
+    end
+  end
+
   def subscribe(*objects, **options)
     Shouter::Store.register(objects, options)
   end

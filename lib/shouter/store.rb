@@ -6,6 +6,7 @@ module Shouter
 
     # Implement a simple Singleton pattern
     private_class_method :new
+
     @@listeners = []
     @@mutex = Mutex.new
 
@@ -17,7 +18,10 @@ module Shouter
 
       def register(objects, options)
         mutex.synchronize do
-          objects.each { |object| @@listeners << Shouter::Listener.new(object, options) }
+          objects.each do |object|
+            subscribed_objects = @@listeners.map(&:object)
+            @@listeners << Shouter::Listener.new(object, options) unless subscribed_objects.include?(object)
+          end
         end
       end
 
@@ -36,9 +40,7 @@ module Shouter
       def notify(scope, event, args, &block)
         return if listeners.empty?
 
-        listeners.select { |listener| listener.for?(scope) }.each do |listener|
-          listener.notify(event, args, &block)
-        end
+        listeners.each { |listener| listener.notify(scope, event, args, &block) }
       end
 
       def listeners

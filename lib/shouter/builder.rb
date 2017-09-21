@@ -3,10 +3,11 @@ module Shouter
     class << self
       def register(object, options)
         if options[:async]
-          Shouter::Listeners::Async.new(object, options)
+          _klass = Shouter::Listeners::Async
         else
-          Shouter::Listeners::Sync.new(object, options)
+          _klass = Shouter::Listeners::Sync
         end
+        _klass.new(object, options)
       end
     end
   end

@@ -64,6 +64,13 @@ RSpec.describe Shouter::Listeners::Async do
       guard_listener.notify(:main, :on_change, [])
     end
 
+    it 'does not send the event because a thread has already been created' do
+      expect(object).to_not receive(:on_change)
+
+      listener.send(:create_thread)
+      listener.notify(:main, :on_change, [])
+    end
+
     it 'executes the provided callback' do
       expect(Shouter::Hook).to receive(:call).with(callback)
 

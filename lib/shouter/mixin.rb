@@ -15,6 +15,11 @@ module Shouter
         @scope = options[:scope]
       end
 
+      def notify(scope, event, args, &block)
+        return unless notification_allowed?(event, scope)
+        return unless fire_guard!
+      end
+
       private
 
       def notification_allowed?(event, desired_scope)

@@ -45,7 +45,10 @@ class A
   subscribe(Listener.new, for: :my_async_scope, async: true)
 end
 ```
-Now whenever you `publish` and event it will be run in a separate thread
+Now whenever you `publish` and event it will be run in a separate
+thread. If a thread for the execution is already present another one
+will not be created. If you have supplied a callback option it will be
+executed in the thread of execution of the listener.
 
 You can subscribe multiple objects:
 ```ruby

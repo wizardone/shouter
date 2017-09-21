@@ -7,7 +7,6 @@ module Shouter
         else
           Shouter::Listeners::Sync.new(object, options)
         end
-        #Shouter::Listener.new(object, options)
       end
     end
   end

@@ -1,6 +1,7 @@
 require 'shouter/version'
 require 'shouter/hook'
 require 'shouter/guard'
+require 'shouter/mixin'
 require 'shouter/listener'
 require 'shouter/listeners/async'
 require 'shouter/listeners/sync'

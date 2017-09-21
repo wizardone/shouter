@@ -10,9 +10,10 @@ module Shouter
         return unless notification_allowed?(event, scope)
 
         if fire_guard!
-          object.public_send(event, *args)
-          fire_hook!(callback || block)
-
+          Thread.new do
+            object.public_send(event, *args)
+            fire_hook!(callback || block)
+          end
           Store.unregister(object) if single?
         end
       end

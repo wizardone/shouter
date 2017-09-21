@@ -7,12 +7,11 @@ module Shouter
 
       attr_reader :object, :options, :scope
 
-      def notify(scope, event, args, &block)
-        return unless notification_allowed?(event, scope)
-        return unless fire_guard!
+      def notify!(scope, event, args, &block)
+        return unless notify?(scope, event)
 
         object.public_send(event, *args)
-        fire_hook!(callback || block)
+        fire_hook!(options[:callback] || block)
 
         Store.unregister(object) if single?
       end

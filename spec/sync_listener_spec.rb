@@ -47,26 +47,26 @@ RSpec.describe Shouter::Listeners::Sync do
     it 'sends the event to the object' do
       expect(object).to receive(:on_change)
 
-      listener.notify(:main, :on_change, [])
+      listener.notify!(:main, :on_change, [])
     end
 
     it 'does not send the event because of wrong scope' do
       expect(object).to_not receive(:on_change)
 
-      listener.notify(:dummy, :on_change, [])
+      listener.notify!(:dummy, :on_change, [])
     end
 
     it 'does not send the event because of guard clause' do
       expect(Shouter::Guard).to receive(:call) { false }
       expect(object).to_not receive(:on_change)
 
-      guard_listener.notify(:main, :on_change, [])
+      guard_listener.notify!(:main, :on_change, [])
     end
 
     it 'executes the provided callback' do
       expect(Shouter::Hook).to receive(:call).with(callback)
 
-      callback_listener.notify(:main, :on_change, [])
+      callback_listener.notify!(:main, :on_change, [])
     end
   end
 
@@ -77,13 +77,13 @@ RSpec.describe Shouter::Listeners::Sync do
     it 'executes the listener if the proper scope is present' do
       expect(object).to receive(:on_change)
 
-      listener_object.notify(:test, :on_change, [])
+      listener_object.notify!(:test, :on_change, [])
     end
 
     it 'does not execute the listener if the scope is wrong' do
       expect(object).to_not receive(:on_change)
 
-      listener_object.notify(:bollocks, :on_change, [])
+      listener_object.notify!(:bollocks, :on_change, [])
     end
   end
 end

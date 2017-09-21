@@ -6,16 +6,14 @@ module Shouter
 
       attr_reader :object, :options, :scope, :thread_exists
 
-      def notify(scope, event, args, &block)
-        return unless notification_allowed?(event, scope)
-        return unless fire_guard!
+      def notify!(scope, event, args, &block)
+        return unless notify?(scope, event)
         return if thread_exists?
 
         create_thread
-
         Thread.new do
           object.public_send(event, *args)
-          fire_hook!(callback || block)
+          fire_hook!(options[:callback] || block)
         end
         Store.unregister(object) if single?
       end

@@ -15,12 +15,13 @@ module Shouter
         @scope = options[:scope]
       end
 
-      def notify(scope, event, args, &block)
-        return unless notification_allowed?(event, scope)
-        return unless fire_guard!
-      end
-
       private
+
+      def notify?(scope, event)
+        return false unless notification_allowed?(event, scope)
+        return false unless fire_guard!
+        true
+      end
 
       def notification_allowed?(event, desired_scope)
         object.respond_to?(event) && scope == desired_scope
@@ -31,19 +32,11 @@ module Shouter
       end
 
       def fire_guard!
-        Shouter::Guard.(guard)
-      end
-
-      def callback
-        options[:callback]
+        Shouter::Guard.(options[:guard])
       end
 
       def single?
         options[:single] == true
-      end
-
-      def guard
-        options[:guard]
       end
     end
   end

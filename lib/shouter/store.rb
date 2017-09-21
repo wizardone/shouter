@@ -42,7 +42,7 @@ module Shouter
       def notify(scope, event, args, &block)
         return if listeners.empty?
 
-        listeners.each { |listener| listener.notify(scope, event, args, &block) }
+        listeners.each { |listener| listener.notify!(scope, event, args, &block) }
       end
 
       def listeners

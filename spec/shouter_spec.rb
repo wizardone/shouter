@@ -162,41 +162,7 @@ describe Shouter do
 
       expect(subject.listeners).not_to be_empty
       expect(subject.listeners.size).to eq 1
-      expect(subject.listeners.first).to be_a(Shouter::Listener)
-    end
-  end
-
-  context 'Shouter::Listener' do
-    describe '#initialize' do
-      it 'initializes the listener class' do
-        listener = Shouter::Listener.new(Class.new, scope: :main)
-
-        expect(listener.object).to be_a(Class)
-        expect(listener.options).to be_a(Hash)
-      end
-
-      it 'raises an error if no event scope is provided' do
-        expect {
-          Shouter::Listener.new(Class.new, {})
-        }.to raise_error(Shouter::ScopeMissingError)
-      end
-    end
-
-    context 'scope execution' do
-
-      let(:listener_object) { Shouter::Listener.new(listener, scope: :test) }
-
-      it 'executes the listener if the proper scope is present' do
-        expect(listener).to receive(:on_change)
-
-        listener_object.notify(:test, :on_change, [])
-      end
-
-      it 'does not execute the listener if the scope is wrong' do
-        expect(listener).to_not receive(:on_change)
-
-        listener_object.notify(:bollocks, :on_change, [])
-      end
+      expect(subject.listeners.first).to be_a(Shouter::Listeners::Sync)
     end
   end
 

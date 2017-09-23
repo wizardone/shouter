@@ -20,7 +20,9 @@ module Shouter
         mutex.synchronize do
           objects.each do |object|
             subscribed_objects = @@listeners.map(&:object)
-            @@listeners << Shouter::Listener.new(object, options) unless subscribed_objects.include?(object)
+            # Got through a builder class based on whether it is a sync or async listener
+            # Should Return Shouter::Listener
+            @@listeners << Shouter::Builder.register(object, options) unless subscribed_objects.include?(object)
           end
         end
       end
@@ -40,7 +42,7 @@ module Shouter
       def notify(scope, event, args, &block)
         return if listeners.empty?
 
-        listeners.each { |listener| listener.notify(scope, event, args, &block) }
+        listeners.each { |listener| listener.notify!(scope, event, args, &block) }
       end
 
       def listeners

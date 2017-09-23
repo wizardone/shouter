@@ -7,6 +7,8 @@ module Shouter
 
     module InstanceMethods
 
+      attr_reader :object, :options, :scope
+
       def initialize(object, options)
         raise Shouter::ScopeMissingError unless options[:scope]
 

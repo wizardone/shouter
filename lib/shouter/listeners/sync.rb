@@ -5,8 +5,6 @@ module Shouter
 
       include Shouter::Mixin
 
-      attr_reader :object, :options, :scope
-
       def notify!(scope, event, args, &block)
         return unless notify?(scope, event)
 

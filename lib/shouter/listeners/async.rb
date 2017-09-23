@@ -4,7 +4,7 @@ module Shouter
 
       include Shouter::Mixin
 
-      attr_reader :object, :options, :scope, :thread_exists
+      attr_reader :thread_exists
 
       def notify!(scope, event, args, &block)
         return unless notify?(scope, event)

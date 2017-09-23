@@ -25,6 +25,10 @@ module Shouter
         true
       end
 
+      def unregister(object)
+        Store.unregister(object) if single?
+      end
+
       def notification_allowed?(event, desired_scope)
         object.respond_to?(event) && scope == desired_scope
       end

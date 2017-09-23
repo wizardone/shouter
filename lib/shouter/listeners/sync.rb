@@ -1,4 +1,3 @@
-require 'byebug'
 module Shouter
   module Listeners
     class Sync
@@ -11,7 +10,7 @@ module Shouter
         object.public_send(event, *args)
         fire_hook!(options[:callback] || block)
 
-        Store.unregister(object) if single?
+        unregister(object)
       end
     end
   end

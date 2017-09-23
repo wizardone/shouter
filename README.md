@@ -37,7 +37,7 @@ end
 A.publish(:my_scope, :on_change)
 => "I`m changed"
 ```
-If you want asyncronous execution, using separate threads you can supply
+Since version `0.1.3` if you want asyncronous execution, using separate threads you can supply
 the `async` option. By default it is set to `false`
 ```ruby
 class A

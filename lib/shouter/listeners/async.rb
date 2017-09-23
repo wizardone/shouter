@@ -15,7 +15,7 @@ module Shouter
           object.public_send(event, *args)
           fire_hook!(options[:callback] || block)
         end
-        Store.unregister(object) if single?
+        unregister(object)
       end
 
       private
